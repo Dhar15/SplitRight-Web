@@ -5,7 +5,442 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./logo.png">
     <title>SplitRight - Intelligent Bill Splitting App</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            min-height: 80vh;
+            margin-top: 2rem;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .feature p {
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        /* Download Section */
+        .download-section {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .download-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .download-content p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .download-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .install-btn {
+            background: white;
+            color: #4f46e5;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .qr-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .qr-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #2d3748;
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            color: #a0aec0;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: #4a5568;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .qr-code-container {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e2e8f0;
+        }
+
+        .qr-code-container img {
+            max-width: 200px;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .modal-body p {
+            color: #4a5568;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Instructions */
+        .instructions {
+            background: #fff8f0;
+            border: 2px solid #fed7aa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #c2410c;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            color: #7c2d12;
+        }
+
+        .instructions li:before {
+            content: "📱";
+            position: absolute;
+            left: 0;
+        }
+
+        .instructions strong {
+            color: #9a3412;
+        }
+
+        .expo-note {
+            background: #e0f2fe;
+            border: 2px solid #0ea5e9;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            color: #0c4a6e;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .instructions {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: auto;
+            padding: 0 0.5rem;
+        }
+        
+        .notification-close:hover {
+            opacity: 0.8;
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .feature {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .feature:nth-child(2) { animation-delay: 0.1s; }
+        .feature:nth-child(3) { animation-delay: 0.2s; }
+        .feature:nth-child(4) { animation-delay: 0.3s; }
+    </style>
 </head>
 <body>
     <header>
@@ -48,12 +483,16 @@
 
             <section class="section download-section">
                 <div class="download-content">
-                    <h2>Download SplitRight</h2>
-                    <p>Get started with effortless bill splitting today. Available currently for Android.</p>
+                    <h2>Install SplitRight</h2>
+                    <p>Get started with effortless bill splitting today. Available for Android and iOS.</p>
+                    
+                    <div class="expo-note">
+                        💡 The link will redirect you to an Expo dashboard, please click on "Install" to begin the installation
+                    </div>
                     
                     <div class="download-buttons">
-                         <button class="download-btn">
-                            📱 Download APK
+                        <button class="install-btn" onclick="redirectToExpo()">
+                            📱 Install APK
                         </button>
                         <button class="qr-btn" onclick="showQRModal()">
                             📷 Scan QR Code
@@ -63,10 +502,11 @@
                     <div class="instructions">
                         <h3>📋 Installation Instructions</h3>
                         <ul>
-                            <li><strong>Android 8.0+ users:</strong> Navigate to Settings > Apps & notifications > Special app access > Install unknown apps. Select your browser and enable "Allow from this source".</li>
-                            <li><strong>Android 7.1.1 and below:</strong> Go to Settings > Security and enable "Unknown sources" to allow installation of apps from sources other than Google Play.</li>
-                            <li>After enabling the setting, tap the downloaded APK file to install SplitRight.</li>
-                            <li>You may need to grant permissions for camera access (for bill scanning) when you first open the app.</li>
+                            <li><strong>Step 1:</strong> Click the "Install APK" button or scan the QR code from your camera app.</li>
+                            <li><strong>Step 2:</strong> You'll be redirected to the Expo dashboard in your browser.</li>
+                            <li><strong>Step 3:</strong> On the Expo page, click the "Install" button to download the app.</li>
+                            <li><strong>Step 4:</strong> For Android: Enable "Install from unknown sources" if prompted.</li>
+                            <li><strong>Step 5:</strong> Grant camera permissions when you first open the app for bill scanning.</li>
                         </ul>
                     </div>
                 </div>
@@ -89,22 +529,314 @@
     <div id="qrModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Scan to Download SplitRight</h3>
+                <h3>Scan to Install SplitRight</h3>
                 <span class="modal-close" onclick="hideQRModal()">&times;</span>
             </div>
             <div class="modal-body">
                 <div class="qr-code-container">
-                    <img id="qrCodeImage" src="images/download-qr-code.png" alt="Download SplitRight QR Code" onerror="this.style.display='none'; document.getElementById('qrError').style.display='block';">
+                    <img id="qrCodeImage" src="images/expo-qr-code.png" alt="Install SplitRight QR Code" onerror="this.style.display='none'; document.getElementById('qrError').style.display='block';">
                     <div id="qrError" style="display: none; padding: 2rem; text-align: center; color: #666;">
                         QR Code not available<br>
-                        <small>Use the download button instead</small>
+                        <small>Use the install button instead</small>
                     </div>
                 </div>
-                <p>Point your phone's camera at the QR code to download the app directly</p>
+                <p>Point your phone's camera at the QR code to open the Expo dashboard directly</p>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const CONFIG = {
+            expoUrl: "https://expo.dev/accounts/kingofthefall15/projects/splitright/builds/3821b5f1-97f4-402c-a1f4-c3c6e33e5c7f", 
+            qrCodeImageUrl: "images/expo-qr-code.png"
+        };
+
+        // DOM Content Loaded Event
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWebsite();
+        });
+
+        // Initialize website functionality
+        function initializeWebsite() {
+            setupQRModal();
+            setupScrollAnimations();
+            setupSmoothScrolling();
+            showDeviceSpecificContent();
+            handleConnectionStatus();
+            handleResourceErrors();
+        }
+
+        // Redirect to Expo dashboard
+        function redirectToExpo() {
+            try {
+                // Show loading notification
+                showNotification('Redirecting to Expo dashboard...', 'info');
+                
+                // Track redirect event
+                trackExpoRedirect();
+                
+                // Open Expo URL in new tab
+                window.open(CONFIG.expoUrl, '_blank');
+                
+                // Show success message after short delay
+                setTimeout(() => {
+                    showNotification('Please click "Install" on the Expo page to download the app.', 'success');
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Redirect failed:', error);
+                showNotification('Redirect failed. Please try again or contact support.', 'error');
+            }
+        }
+
+        // Setup QR Code Modal
+        function setupQRModal() {
+            const modal = document.getElementById('qrModal');
+            const qrImage = document.getElementById('qrCodeImage');
+            
+            if (qrImage && CONFIG.qrCodeImageUrl) {
+                qrImage.src = CONFIG.qrCodeImageUrl;
+            }
+            
+            // Close modal when clicking outside of it
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        hideQRModal();
+                    }
+                });
+            }
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideQRModal();
+                }
+            });
+        }
+
+        // Show QR Code Modal
+        function showQRModal() {
+            const modal = document.getElementById('qrModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        // Hide QR Code Modal
+        function hideQRModal() {
+            const modal = document.getElementById('qrModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">${getNotificationIcon(type)}</span>
+                    <span class="notification-message">${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+
+            // Add notification styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                max-width: 400px;
+                animation: slideInRight 0.3s ease-out;
+            `;
+
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOutRight 0.3s ease-out';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        // Get notification icon based on type
+        function getNotificationIcon(type) {
+            switch(type) {
+                case 'success': return '✅';
+                case 'error': return '❌';
+                case 'warning': return '⚠️';
+                default: return 'ℹ️';
+            }
+        }
+
+        // Smooth scrolling for internal links
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Scroll animations using Intersection Observer
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for scroll animations
+            document.querySelectorAll('.section, .feature').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(el);
+            });
+        }
+
+        // Track Expo redirect for analytics (optional)
+        function trackExpoRedirect() {
+            // Google Analytics 4 event tracking (if you have GA4 set up)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'expo_redirect', {
+                    'event_category': 'App Install',
+                    'event_label': 'SplitRight Expo Redirect'
+                });
+            }
+
+            // You can also send to your own analytics endpoint
+            // fetch('/api/track-expo-redirect', { method: 'POST' }).catch(console.error);
+        }
+
+        // Device detection for better UX
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(userAgent);
+            const isAndroid = /android/.test(userAgent);
+            const isIOS = /iphone|ipad|ipod/.test(userAgent);
+            
+            return {
+                isMobile,
+                isAndroid,
+                isIOS,
+                isDesktop: !isMobile
+            };
+        }
+
+        // Show device-specific messages
+        function showDeviceSpecificContent() {
+            const device = detectDevice();
+            const downloadSection = document.querySelector('.download-section p');
+            
+            // Update content based on device
+            if (device.isIOS) {
+                if (downloadSection) {
+                    downloadSection.innerHTML = 'Get started with effortless bill splitting today. Works great on iOS!';
+                }
+            } else if (device.isAndroid) {
+                if (downloadSection) {
+                    downloadSection.innerHTML = 'Get started with effortless bill splitting today. Optimized for Android!';
+                }
+            }
+        }
+
+        // Handle offline/online status
+        function handleConnectionStatus() {
+            window.addEventListener('online', () => {
+                showNotification('Connection restored!', 'success');
+            });
+
+            window.addEventListener('offline', () => {
+                showNotification('You are offline. Please check your connection to install the app.', 'warning');
+            });
+        }
+
+        // Error handling for failed resource loads
+        function handleResourceErrors() {
+            window.addEventListener('error', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    console.error('Image failed to load:', e.target.src);
+                    // Handle broken images gracefully
+                    e.target.style.display = 'none';
+                }
+            });
+        }
+
+        // Copy to clipboard functionality (for sharing)
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Link copied to clipboard!', 'success');
+                }).catch(() => {
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        }
+
+        // Fallback copy method for older browsers
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification('Link copied to clipboard!', 'success');
+            } catch (err) {
+                showNotification('Failed to copy link', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Expose functions globally for HTML onclick handlers
+        window.copyToClipboard = copyToClipboard;
+        window.showQRModal = showQRModal;
+        window.hideQRModal = hideQRModal;
+        window.redirectToExpo = redirectToExpo;
+    </script>
 </body>
 </html>
