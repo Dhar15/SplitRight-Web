@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./logo.png">
+    <title>SplitRight - Intelligent Bill Splitting App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">🧾 SplitRight</h1>
+            <p class="tagline">Scan it. Split it. Settle it.</p>
+            <p class="subtitle">The intelligent bill splitting app that makes shared expenses effortless</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container content">
+            <section class="section">
+                <h2>Why SplitRight?</h2>
+                <p>Tired of the awkward math and confusion when splitting bills with friends? SplitRight uses OCR to scan your receipts, automatically detect items, and fairly split taxes, tips, and discounts among your group.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">📸</div>
+                        <h3>AI-Powered Scanning</h3>
+                        <p>Simply snap a photo of your bill and let our OCR technology extract all items and prices automatically.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👥</div>
+                        <h3>Smart Group Splitting</h3>
+                        <p>Tag friends to specific items with an intuitive checkbox interface. See real-time calculations as you go.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🧮</div>
+                        <h3>Fair Tax & Tip Handling</h3>
+                        <p>Automatically split taxes, tips, and discounts proportionally or evenly based on your preferences.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <h3>Export & Settle</h3>
+                        <p>Generate shareable PDFs with UPI payment links and QR codes for instant settlement.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section download-section">
+                <div class="download-content">
+                    <h2>Download SplitRight</h2>
+                    <p>Get started with effortless bill splitting today. Available currently for Android.</p>
+                    
+                    <div class="download-buttons">
+                         <button class="download-btn">
+                            📱 Download APK
+                        </button>
+                        <button class="qr-btn" onclick="showQRModal()">
+                            📷 Scan QR Code
+                        </button>
+                    </div>
+
+                    <div class="instructions">
+                        <h3>📋 Installation Instructions</h3>
+                        <ul>
+                            <li><strong>Android 8.0+ users:</strong> Navigate to Settings > Apps & notifications > Special app access > Install unknown apps. Select your browser and enable "Allow from this source".</li>
+                            <li><strong>Android 7.1.1 and below:</strong> Go to Settings > Security and enable "Unknown sources" to allow installation of apps from sources other than Google Play.</li>
+                            <li>After enabling the setting, tap the downloaded APK file to install SplitRight.</li>
+                            <li>You may need to grant permissions for camera access (for bill scanning) when you first open the app.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 SplitRight by Kshitij Dhar. Making shared expenses simple and fair.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://github.com/Dhar15/SplitRight/tree/main" target="_blank" style="color: #94a3b8; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <span>🔗</span> View Source Code on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Scan to Download SplitRight</h3>
+                <span class="modal-close" onclick="hideQRModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="qr-code-container">
+                    <img id="qrCodeImage" src="images/download-qr-code.png" alt="Download SplitRight QR Code" onerror="this.style.display='none'; document.getElementById('qrError').style.display='block';">
+                    <div id="qrError" style="display: none; padding: 2rem; text-align: center; color: #666;">
+                        QR Code not available<br>
+                        <small>Use the download button instead</small>
+                    </div>
+                </div>
+                <p>Point your phone's camera at the QR code to download the app directly</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
